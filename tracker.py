@@ -1,17 +1,19 @@
-
-
 import cv2
 import mediapipe as mp
 import math
-import numpy as np # Diperlukan untuk kalkulasi EAR
+import numpy as np 
 
 class HandTracker:
-    def __init__(self, mode=False, max_hands=1, detection_con=0.7, track_con=0.7):
+    def __init__(self, mode=False, max_hands=1, detection_con=0.7, track_con=0.7,
+                 thumb_up_sensitivity_y_offset=0, finger_up_sensitivity_y_offset=0): # Added sensitivity params
         self.mode = mode
         self.max_hands = max_hands
-        self.model_complexity = 1 # 0 or 1. Higher complexity = more accuracy, more latency.
+        self.model_complexity = 1 
         self.detection_con = detection_con
         self.track_con = track_con
+
+        self.thumb_up_sensitivity_y_offset = thumb_up_sensitivity_y_offset
+        self.finger_up_sensitivity_y_offset = finger_up_sensitivity_y_offset
 
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
@@ -22,18 +24,16 @@ class HandTracker:
             min_tracking_confidence=self.track_con
         )
         self.mp_draw = mp.solutions.drawing_utils
-        self.tip_ids = [4, 8, 12, 16, 20] # Thumb, Index, Middle, Ring, Pinky tips
-        # PIP joints (sendi tengah jari, penting untuk deteksi 'up')
-        # Thumb (MCP:2), Index (PIP:6), Middle (PIP:10), Ring (PIP:14), Pinky (PIP:18)
+        self.tip_ids = [4, 8, 12, 16, 20] 
         self.pip_ids = [2, 6, 10, 14, 18] 
         self.finger_names = ["THUMB", "INDEX", "MIDDLE", "RING", "PINKY"]
-        self.landmark_list = [] # Menyimpan landmark list dari frame terakhir
-        self.handedness = None # Menyimpan 'Left' or 'Right'
+        self.landmark_list = [] 
+        self.handedness = None 
 
     def find_hands(self, img, draw=True):
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(img_rgb)
-        self.landmark_list = [] # Reset
+        self.landmark_list = [] 
         self.handedness = None
 
         if self.results.multi_hand_landmarks:
@@ -50,11 +50,9 @@ class HandTracker:
                     self.landmark_list = current_hand_landmarks
 
                     if self.results.multi_handedness:
-                        # Pastikan handedness result sesuai dengan hand_idx
                         if hand_idx < len(self.results.multi_handedness):
                            self.handedness = self.results.multi_handedness[hand_idx].classification[0].label
                         else:
-                            # Jika ada landmark tapi tidak ada handedness (jarang terjadi tapi untuk keamanan)
                             self.handedness = None 
         return img, self.results
 
@@ -64,56 +62,40 @@ class HandTracker:
         return (-1, -1), []
 
 
-    def fingers_up(self):
+    def fingers_up(self, debug_logging=False): # Added debug_logging
         """
         Mendeteksi jari mana yang terangkat.
-        Mengembalikan list boolean [jempol, telunjuk, tengah, manis, kelingking].
-        Jempol: Cek posisi X relatif terhadap pangkalnya (landmark 2).
-        Jari lain: Cek posisi Y ujung jari relatif terhadap sendi PIP (landmark - 2 dari tip).
+        Menggunakan self.thumb_up_sensitivity_y_offset dan self.finger_up_sensitivity_y_offset.
+        Positive offset makes it easier for the finger to be considered "up".
         """
         fingers = [False, False, False, False, False]
         if not self.landmark_list or not self.handedness or len(self.landmark_list) < max(self.tip_ids) +1:
+            if debug_logging: print("[FingersUp] No landmarks, handedness, or insufficient landmarks.")
             return fingers
 
-        # Jempol (Thumb) - Landmark Tip: 4, Landmark Pangkal/Referensi: 2 (MCP) atau 3 (IP)
-        # Kita gunakan tip (4) vs MCP (2) untuk orientasi X
-        thumb_tip_x = self.landmark_list[self.tip_ids[0]][1] # lm_list[4][1]
-        thumb_mcp_x = self.landmark_list[self.pip_ids[0]][1] # lm_list[2][1] (MCP)
-
-        # Untuk deteksi jempol 'up', kita juga bisa cek jarak vertikalnya.
-        # Jika jempol lebih tinggi (nilai Y lebih kecil) dari pangkal jari lain, mungkin itu 'up'.
-        # Ini bisa lebih robust daripada hanya X, terutama jika tangan miring.
-        # Mari coba dengan Y: Ujung jempol (4) lebih tinggi dari sendi pergelangan (0) atau pangkal telunjuk (5)
         thumb_tip_y = self.landmark_list[self.tip_ids[0]][2]
-        index_finger_mcp_y = self.landmark_list[5][2] # MCP Jari Telunjuk
-
-        # Kondisi Jempol 'Up' yang lebih baik:
-        # 1. Untuk tangan kanan, ujung jempol (4) X < pangkal jempol (2) X. Untuk tangan kiri X > X.
-        # 2. ATAU, ujung jempol (4) Y < pangkal jari telunjuk (5) Y (lebih tinggi secara vertikal)
-        # Ini adalah heuristik, bisa disesuaikan.
-        
-        # Logika Jempol Awal (berdasarkan X)
-        # if self.handedness == "Right":
-        #     if thumb_tip_x < thumb_mcp_x: fingers[0] = True
-        # elif self.handedness == "Left":
-        #     if thumb_tip_x > thumb_mcp_x: fingers[0] = True
-
-        # Logika Jempol Revisi (berdasarkan Y, ujung jempol lebih tinggi dari beberapa referensi)
-        # Referensi: pertengahan antara MCP telunjuk (5) dan MCP kelingking (17)
-        # Atau lebih simpel: jempol (4) Y lebih kecil dari jempol IP (3) Y.
         thumb_ip_y = self.landmark_list[self.tip_ids[0] - 1][2] # lm_list[3][2] (IP joint)
-        if thumb_tip_y < thumb_ip_y:
+        
+        # Thumb: tip_y < (ip_y + offset). Positive offset allows tip_y to be slightly larger (lower on screen)
+        # and still be considered "up" relative to the IP joint.
+        if thumb_tip_y < (thumb_ip_y + self.thumb_up_sensitivity_y_offset):
              fingers[0] = True
         
-        # 4 Jari lainnya (Telunjuk, Tengah, Manis, Kelingking)
-        # Bandingkan posisi Y ujung jari (tip_ids[i]) dengan posisi Y dari sendi PIP (pip_ids[i])
-        for i in range(1, 5): # Untuk jari telunjuk (1) hingga kelingking (4)
+        if debug_logging:
+            print(f"[FingersUp] Thumb: TipY({thumb_tip_y}), IP_Y({thumb_ip_y}), Offset({self.thumb_up_sensitivity_y_offset}), Up={fingers[0]}")
+
+        for i in range(1, 5): 
             finger_tip_y = self.landmark_list[self.tip_ids[i]][2]
             finger_pip_y = self.landmark_list[self.pip_ids[i]][2] 
             
-            if finger_tip_y < finger_pip_y: # Ujung jari lebih tinggi (nilai Y lebih kecil)
+            # Other fingers: tip_y < (pip_y + offset)
+            if finger_tip_y < (finger_pip_y + self.finger_up_sensitivity_y_offset): 
                 fingers[i] = True
+            
+            if debug_logging:
+                 print(f"[FingersUp] {self.finger_names[i]}: TipY({finger_tip_y}), PIP_Y({finger_pip_y}), Offset({self.finger_up_sensitivity_y_offset}), Up={fingers[i]}")
         
+        if debug_logging: print(f"[FingersUp] Final status: {fingers}")
         return fingers
 
 
@@ -128,7 +110,7 @@ class HandTracker:
         return math.hypot(p2[1] - p1[1], p2[2] - p1[2])
 
 
-    def get_gestures(self, click_threshold_distance=30):
+    def get_gestures(self, click_threshold_distance=30, debug_logging=False): # Added debug_logging
         gestures = {
             "left_click": False,
             "right_click": False,
@@ -138,13 +120,16 @@ class HandTracker:
             "pointer_finger_id": self.tip_ids[1] 
         }
         if not self.landmark_list:
+            if debug_logging: print("[GetGestures] No landmarks for gesture detection.")
             return gestures
 
-        # Gestur Pinch (Prioritas Tinggi)
         dist_index_thumb = self.calculate_distance(self.tip_ids[1], self.tip_ids[0])
         dist_middle_thumb = self.calculate_distance(self.tip_ids[2], self.tip_ids[0])
         dist_ring_thumb = self.calculate_distance(self.tip_ids[3], self.tip_ids[0])
         
+        if debug_logging:
+            print(f"[GetGestures] Distances: Index-Thumb={dist_index_thumb:.2f}, Middle-Thumb={dist_middle_thumb:.2f}, Ring-Thumb={dist_ring_thumb:.2f} (Threshold: {click_threshold_distance:.2f})")
+
         pinch_detected_this_frame = False
         if dist_index_thumb < click_threshold_distance:
             gestures["left_click"] = True
@@ -158,23 +143,24 @@ class HandTracker:
             gestures["drag_toggle"] = True
             pinch_detected_this_frame = True
 
-        # Gestur Scroll (Hanya jika tidak ada pinch terdeteksi)
+        if debug_logging:
+            print(f"[GetGestures] Pinch detected: {pinch_detected_this_frame}. Gestures after pinch: {gestures}")
+
         if not pinch_detected_this_frame:
-            fingers_status = self.fingers_up() # [Thumb, Index, Middle, Ring, Pinky]
+            fingers_status = self.fingers_up(debug_logging=debug_logging) # Pass debug flag
             
-            # Scroll Atas: Jempol, Telunjuk, Tengah UP; Manis, Kelingking DOWN
-            # Status:      [  True,   True,    True, False, False]
+            # Scroll Up: Current logic: [True, True, True, False, False]
             if fingers_status == [True, True, True, False, False]:
                 gestures["scroll_up"] = True
             
-            # Scroll Bawah: Telunjuk, Tengah, Manis UP; Jempol, Kelingking DOWN
-            # Status:       [ False,   True,    True,  True, False]
-            elif fingers_status == [False, True, True, True, False]:
+            # Scroll Down: Current logic: [False, True, True, True, False]
+            elif fingers_status == [False, True, True, True, False]: # Corrected based on original code
                 gestures["scroll_down"] = True
         
+        if debug_logging:
+            print(f"[GetGestures] Final gestures: {gestures}")
         return gestures
 
-# --- Sisa FaceTracker class tetap sama ---
 class FaceTracker:
     def __init__(self, max_faces=1, detection_con=0.5, track_con=0.5):
         self.max_faces = max_faces

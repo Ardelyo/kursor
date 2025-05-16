@@ -6,6 +6,7 @@
     "camera_index": 0,
     "click_gesture_threshold": 30,
     "control_mode": "hand",
+    "debug_gesture_logging": false,
     "double_click_interval": 0.3,
     "dwell_click_duration": 1.0,
     "enable_blink_detection": false,
@@ -16,6 +17,7 @@
     "face_eye_aspect_ratio_threshold": 0.2,
     "face_pointer_landmark": 1,
     "face_tracking_confidence": 0.6,
+    "finger_up_sensitivity_y_offset": 5,
     "frame_height": 480,
     "frame_width": 640,
     "hand_detection_confidence": 0.75,
@@ -29,6 +31,8 @@
     "keyboard_theme": "light",
     "keyboard_toggle_key": "k",
     "mouse_sensitivity": 0.3,
+    "pinch_strictness_factor": 1.0,
     "scroll_amount": 100,
-    "theme": "light"
+    "theme": "light",
+    "thumb_up_sensitivity_y_offset": 5
 }

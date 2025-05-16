@@ -1,63 +1,62 @@
-
-
 import json
 import os
 
 CONFIG_FILE = "settings.json"
 
 DEFAULT_SETTINGS = {
-    "app_version": "0.2.0", # Version bump
+    "app_version": "0.2.1", # Version bump for new features
     "control_mode": "hand",  # "hand" or "face"
     
     # Mouse & Pointer
-    "camera_index": 0, # Added from main.py's DEFAULT_CAM_INDEX
+    "camera_index": 0, 
     "frame_width": 640,
     "frame_height": 480,
-    "mouse_sensitivity": 0.3, # Smoothing factor 0.1 (more smooth) - 1.0 (less smooth)
-    "dwell_click_duration": 1.0, # detik, untuk klik wajah
-    "active_region_padding": 0.10, # persen
-    "scroll_amount": 100, # Unit scroll
+    "mouse_sensitivity": 0.3, 
+    "dwell_click_duration": 1.0, 
+    "active_region_padding": 0.10, 
+    "scroll_amount": 100, 
 
     # Hand Gestures
     "hand_detection_confidence": 0.75,
     "hand_tracking_confidence": 0.75,
-    "hand_pointer_landmark": 8, # Ujung telunjuk
-    "click_gesture_threshold": 30, # piksel, untuk pinch
-    "double_click_interval": 0.3, # detik
-    # Definisi gestur scroll bisa lebih kompleks, untuk sekarang pakai setting dari tracker
-    # "hand_scroll_gesture_up": "INDEX_MIDDLE_UP", 
-    # "hand_scroll_gesture_down": "RING_PINKY_UP", # Contoh, implementasi di tracker.py
-    "hand_scroll_pinch_thumb_threshold": 40, # Jarak pinch jempol untuk scroll, mungkin beda dari klik
+    "hand_pointer_landmark": 8, 
+    "click_gesture_threshold": 30, 
+    "double_click_interval": 0.3, 
+    "hand_scroll_pinch_thumb_threshold": 40, 
+    "thumb_up_sensitivity_y_offset": 5, # Pixels, positive makes it easier to detect "up"
+    "finger_up_sensitivity_y_offset": 5, # Pixels, positive makes it easier to detect "up"
+    "pinch_strictness_factor": 1.0, # Multiplier for click_gesture_threshold. <1 easier, >1 stricter.
+    "debug_gesture_logging": False, # Enable detailed gesture logging in console
 
     # Face Gestures
     "face_detection_confidence": 0.6,
     "face_tracking_confidence": 0.6,
-    "face_pointer_landmark": 1, # Ujung hidung
+    "face_pointer_landmark": 1, 
     "enable_blink_detection": False,
-    "face_blink_left_action": "left_click", # "left_click", "right_click", "none", "key_F1", etc.
+    "face_blink_left_action": "left_click", 
     "face_blink_right_action": "right_click",
-    "face_eye_aspect_ratio_threshold": 0.20, # Threshold untuk EAR
-    "face_blink_consecutive_frames": 2, # Jumlah frame berturut-turut EAR < threshold untuk dianggap kedip
+    "face_eye_aspect_ratio_threshold": 0.20, 
+    "face_blink_consecutive_frames": 2, 
 
     # Virtual Keyboard
     "keyboard_show_on_startup": False,
-    "keyboard_layout": "qwerty_id", # "qwerty_id", "qwerty_en", "azerty_fr", "numeric"
-    "keyboard_theme": "light", # "light", "dark", "custom"
-    "keyboard_dwell_time": 0.7, # detik, untuk dwell pada tombol keyboard
+    "keyboard_layout": "qwerty_id", 
+    "keyboard_theme": "light", 
+    "keyboard_dwell_time": 0.7, 
     "keyboard_key_sound": False,
-    "keyboard_toggle_key": "k", # Tombol untuk menampilkan/menyembunyikan keyboard
+    "keyboard_toggle_key": "k", 
 
     # UI/App
-    "theme": "light", # Tema GUI pengaturan
-    "action_cooldown_default": 0.3, # Cooldown umum untuk aksi mouse
-    "action_cooldown_scroll": 0.1  # Cooldown khusus untuk scroll
+    "theme": "light", 
+    "action_cooldown_default": 0.3, 
+    "action_cooldown_scroll": 0.1  
 }
 
 def save_settings(settings):
     """Menyimpan dictionary settings ke file JSON."""
     try:
         with open(CONFIG_FILE, 'w') as f:
-            json.dump(settings, f, indent=4, sort_keys=True) # sort_keys for consistency
+            json.dump(settings, f, indent=4, sort_keys=True) 
         print(f"Pengaturan disimpan ke {CONFIG_FILE}")
         return True
     except Exception as e:
@@ -66,47 +65,56 @@ def save_settings(settings):
 
 def load_settings():
     """Memuat settings dari file JSON. Jika tidak ada, buat default."""
-    settings_to_return = DEFAULT_SETTINGS.copy() # Mulai dengan default
+    settings_to_return = DEFAULT_SETTINGS.copy() 
 
     if os.path.exists(CONFIG_FILE):
         try:
             with open(CONFIG_FILE, 'r') as f:
                 loaded_settings_from_file = json.load(f)
                 
-                # Gabungkan dengan default: ambil nilai dari file jika ada, jika tidak pakai default
-                # Ini juga memastikan kunci baru dari DEFAULT_SETTINGS ditambahkan jika file lama
-                for key in settings_to_return:
+                current_default_keys = set(settings_to_return.keys())
+                file_keys = set(loaded_settings_from_file.keys())
+
+                # Update from file if key exists in default
+                for key in current_default_keys:
                     if key in loaded_settings_from_file:
                         settings_to_return[key] = loaded_settings_from_file[key]
                 
-                # Cek apakah ada kunci di file yang tidak ada di default (mungkin dari versi lama)
-                # dan tambahkan ke settings_to_return agar tidak hilang (opsional, tergantung strategi)
-                for key in loaded_settings_from_file:
-                    if key not in settings_to_return:
+                # Add keys from file that are not in current defaults (e.g. user added, or from older version of app)
+                # This behavior can be debated. For now, we'll add them to preserve them.
+                # If a key was removed from DEFAULT_SETTINGS, it will persist if it's in the file.
+                for key in file_keys:
+                    if key not in current_default_keys:
                          settings_to_return[key] = loaded_settings_from_file[key]
-                         # print(f"Peringatan: Kunci '{key}' ada di {CONFIG_FILE} tapi tidak di DEFAULT_SETTINGS.")
-
-
+                         # print(f"Peringatan: Kunci '{key}' ada di {CONFIG_FILE} tapi tidak di DEFAULT_SETTINGS saat ini.")
+                
                 print(f"Pengaturan dimuat dan digabungkan dari {CONFIG_FILE}")
                 
-                # Jika ada perubahan struktur (misal, kunci baru ditambahkan dari default), simpan kembali file
-                # agar file settings.json selalu up-to-date dengan semua kunci yang diketahui aplikasi.
-                # Ini penting jika DEFAULT_SETTINGS adalah "master" dari semua kunci yang mungkin.
-                # Periksa apakah settings yang akan dikembalikan berbeda dari yang ada di file.
-                # Cara sederhana: save ulang jika jumlah kunci berbeda atau ada kunci baru.
-                if len(settings_to_return.keys()) != len(loaded_settings_from_file.keys()) or \
-                   any(k not in loaded_settings_from_file for k in DEFAULT_SETTINGS.keys()):
+                # Check if the file needs to be updated with new default keys
+                # or if the structure of what's returned significantly differs from the file
+                # (e.g., new keys were added from DEFAULT_SETTINGS that weren't in the file).
+                resaved_needed = False
+                if len(settings_to_return.keys()) > len(file_keys): # New keys added from defaults
+                    resaved_needed = True
+                
+                # Also check if any key from current DEFAULT_SETTINGS is missing in the loaded file
+                # (meaning a new default was added and the file is old)
+                for default_key in current_default_keys:
+                    if default_key not in file_keys:
+                        resaved_needed = True
+                        break # No need to check further
+
+                if resaved_needed:
                     print(f"Memperbarui {CONFIG_FILE} dengan kunci baru/default yang mungkin hilang.")
-                    save_settings(settings_to_return)
+                    save_settings(settings_to_return) # Save the merged and potentially updated settings
 
                 return settings_to_return
         except json.JSONDecodeError as e:
             print(f"Error parsing JSON dari {CONFIG_FILE}: {e}. Menggunakan default dan mencoba membuat file baru.")
-            save_settings(settings_to_return) # Simpan default yang bersih
+            save_settings(settings_to_return) 
             return settings_to_return
         except Exception as e:
             print(f"Error umum saat memuat pengaturan dari {CONFIG_FILE}, menggunakan default: {e}")
-            # Jika file korup atau error lain, coba simpan default baru
             save_settings(settings_to_return)
             return settings_to_return
     else:
@@ -115,22 +123,11 @@ def load_settings():
         return settings_to_return
 
 if __name__ == '__main__':
-    # Contoh penggunaan
     current_settings = load_settings()
     print("\nPengaturan Saat Ini (setelah load/merge):")
     for k, v in sorted(current_settings.items()):
         print(f"  {k}: {v}")
 
-    # Contoh modifikasi dan simpan
-    # current_settings["mouse_sensitivity"] = 0.55
-    # current_settings["new_temporary_key"] = "test_value" # Kunci ini akan ditambahkan
+    # Example: Force update of a setting to test saving
+    # current_settings["app_version"] = "0.2.1-test"
     # save_settings(current_settings)
-
-    # loaded_again = load_settings()
-    # print("\nPengaturan Setelah Update (jika ada):")
-    # for k, v in sorted(loaded_again.items()):
-    #     print(f"  {k}: {v}")
-
-    # print("\nDEFAULT_SETTINGS (untuk perbandingan):")
-    # for k, v in sorted(DEFAULT_SETTINGS.items()):
-    #     print(f"  {k}: {v}")
