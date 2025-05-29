@@ -10,9 +10,7 @@
 ██║  ██╗╚██████╔╝██║  ██║███████║╚██████╔╝██║  ██║
 ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝
 ```
-<div align="center">
 
-<div align="center">
 **🇮🇩 Inovasi Teknologi Asistif Made in Indonesia 🇮🇩**
 
 *Revolusi cara berinteraksi dengan komputer melalui gestur tangan & kepala*
