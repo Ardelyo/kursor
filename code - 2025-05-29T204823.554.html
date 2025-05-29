@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumen Proposal Proyek: KURSOR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #005A9C; /* Biru korporat/akademis yang lebih dalam */
+            --secondary-color: #343A40; /* Abu-abu gelap untuk teks */
+            --accent-color: #007bff; /* Biru muda untuk aksen/link */
+            --background-color: #f8f9fa; /* Latar belakang halaman */
+            --content-background: #ffffff; /* Latar belakang area konten */
+            --border-color: #dee2e6; /* Warna border halus */
+            --sidebar-width: 280px;
+            --header-height: 80px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.8;
+            color: var(--secondary-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            font-size: 16px; /* Base font size */
+        }
+
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Table of Contents) */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #2c3e50; /* Dark blue-gray for sidebar */
+            color: #ecf0f1; /* Light text for sidebar */
+            padding: 25px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #1f2b38;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sidebar h2 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.4em;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #46627f;
+            text-align: center;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li a {
+            display: block;
+            color: #bdc3c7; /* Lighter gray for links */
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+        
+        .sidebar nav ul ul {
+            padding-left: 15px;
+            margin-top: 5px;
+            border-left: 1px solid #46627f;
+        }
+        .sidebar nav ul ul li a {
+            font-size: 0.85em;
+            padding: 6px 10px;
+            color: #95a5a6; /* Even lighter for sub-items */
+        }
+        .sidebar nav ul ul li a:hover,
+        .sidebar nav ul ul li a.active {
+             color: #ffffff;
+             background-color: #004a80; /* Slightly darker active for sub-items */
+        }
+
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px 40px;
+            margin-left: var(--sidebar-width);
+            background-color: var(--content-background);
+        }
+
+        .document-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .document-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 0.1em;
+        }
+
+        .document-header .subtitle {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.3em;
+            color: #555;
+            margin-top: 0;
+        }
+        
+        .document-header .keywords {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9em;
+            color: #444;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .document-header .keywords strong {
+            color: var(--primary-color);
+        }
+
+
+        .project-meta {
+            background-color: #f8f9fa; 
+            padding: 25px;
+            border-left: 7px solid var(--primary-color);
+            margin-bottom: 35px;
+            font-size: 0.95em;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .project-meta p {
+            margin: 10px 0;
+            color: #495057;
+        }
+        .project-meta strong {
+            color: var(--secondary-color);
+            min-width: 190px;
+            display: inline-block;
+            font-weight: 600; 
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2, h3, h4 {
+            font-family: 'Lora', serif;
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            counter-increment: section-counter;
+            counter-reset: subsection-counter;
+        }
+        h2::before {
+            content: counter(section-counter) ". ";
+            font-weight: bold;
+        }
+
+        h3 {
+            font-size: 1.7em;
+            color: #004882; /* Slightly lighter blue for H3 */
+            counter-increment: subsection-counter;
+            counter-reset: subsubsection-counter;
+        }
+        h3::before {
+            content: counter(section-counter) "." counter(subsection-counter) ". ";
+            font-weight: bold;
+        }
+        
+        h4 {
+            font-size: 1.4em;
+            color: #003366; /* Even lighter for H4 */
+            counter-increment: subsubsection-counter;
+        }
+        h4::before {
+            content: counter(section-counter) "." counter(subsection-counter) "." counter(subsubsection-counter) ". ";
+            font-weight: bold;
+        }
+
+
+        p, li {
+            font-size: 1.05em; /* Slightly larger for better readability */
+            text-align: justify;
+            margin-bottom: 1em;
+        }
+
+        ul, ol {
+            padding-left: 30px;
+        }
+        ul li, ol li {
+            margin-bottom: 0.7em;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        table th, table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top; 
+        }
+
+        table th {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.98em;
+        }
+
+        table tr:nth-child(even) td {
+            background-color: #f8f9fa;
+        }
+        table tr:hover td {
+            background-color: #f1f5f9; 
+        }
+
+
+        .code-reference {
+            background-color: #282c34; /* Dark theme for code */
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            margin-top: 15px;
+            border: 1px solid #1e2228;
+        }
+        .code-reference strong {
+            color: #61afef; /* Blue for keywords in code block */
+        }
+        .code-reference ul { list-style-type: none; padding-left: 0;}
+        .code-reference ul li::before { content: "📄 "; }
+
+
+        .highlight {
+            background-color: #e6f0ff; /* Softer highlight */
+            padding: 0.1em 0.4em;
+            border-radius: 3px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        blockquote {
+            border-left: 5px solid var(--accent-color); 
+            margin: 1.8em 0; 
+            padding: 1em 1.8em; 
+            background-color: #eef7ff; 
+            color: #003a75; 
+            font-style: italic;
+        }
+        blockquote p { margin-bottom: 0; font-size: 1.02em; }
+
+        .document-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        .placeholder-info {
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Responsive: Hide sidebar and show a toggle button for smaller screens */
+        .sidebar-toggle {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001; /* Above sidebar */
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.2em;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 992px) { /* Tablet and smaller */
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000; /* Ensure sidebar is on top when shown */
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .sidebar-toggle {
+                display: block;
+            }
+            .document-header h1 { font-size: 2.4em; }
+            h2 { font-size: 1.9em; }
+            h3 { font-size: 1.5em; }
+            p, li { font-size: 1em; }
+        }
+        @media (max-width: 576px) { /* Mobile */
+            .document-header h1 { font-size: 2em; }
+            .document-header .subtitle { font-size: 1.1em; }
+            .document-header .keywords { font-size: 0.8em; }
+            h2 { font-size: 1.7em; }
+            h3 { font-size: 1.3em; }
+            .project-meta strong { display: block; min-width: auto; margin-bottom: 3px; }
+        }
+
+    </style>
+</head>
+<body style="counter-reset: section-counter;">
+    <div class="page-wrapper">
+        <button class="sidebar-toggle" id="sidebarToggle">☰ Menu</button>
+        <aside class="sidebar" id="sidebar">
+            <h2>Daftar Isi</h2>
+            <nav id="toc">
+                <ul>
+                    <li><a href="#abstrak">1. Abstrak</a>
+                        <ul>
+                            <li><a href="#abstrak-eksekutif">1.1. Abstrak Eksekutif</a></li>
+                            <li><a href="#abstrak-teknis">1.2. Abstrak Teknis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#pendahuluan">2. Pendahuluan</a>
+                        <ul>
+                            <li><a href="#latar-belakang">2.1. Latar Belakang</a></li>
+                            <li><a href="#rumusan-masalah">2.2. Rumusan Masalah</a></li>
+                            <li><a href="#tujuan-proyek">2.3. Tujuan Proyek</a></li>
+                            <li><a href="#manfaat-proyek">2.4. Manfaat Proyek</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#tinjauan-pustaka">3. Tinjauan Pustaka</a></li>
+                    <li><a href="#metodologi-pengembangan">4. Metodologi Pengembangan</a>
+                        <ul>
+                            <li><a href="#tahapan-pengembangan">4.1. Tahapan Pengembangan</a></li>
+                            <li><a href="#teknologi-digunakan">4.2. Teknologi yang Digunakan</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#rencana-implementasi">5. Rencana Implementasi dan Jadwal Proyek</a>
+                        <ul>
+                            <li><a href="#rincian-fase">5.1. Rincian Fase dan Aktivitas</a></li>
+                            <li><a href="#diagram-gantt">5.2. Diagram Gantt (Deskriptif)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#struktur-tim">6. Struktur Tim dan Peran</a></li>
+                    <li><a href="#luaran-proyek">7. Luaran Proyek (Deliverables)</a></li>
+                    <li><a href="#potensi-risiko">8. Potensi Risiko dan Mitigasi</a></li>
+                    <li><a href="#penutup">9. Penutup</a></li>
+                    <li><a href="#lampiran">10. Lampiran</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="document-header">
+                <h1>KURSOR</h1>
+                <p class="subtitle">Sistem Kontrol Kursor Inovatif berbasis Gestur Tangan dan Kepala untuk Aksesibilitas Digital (Proyek DAMAR - Dukungan Aplikasi Menuju Aksesibilitas Rata)</p>
+                <p class="keywords"><strong>Kata Kunci:</strong> Aksesibilitas Digital, Interaksi Manusia-Komputer, Kontrol Gestur, MediaPipe, OpenCV, Teknologi Asistif, Python, Proyek DAMAR, L1O</p>
+            </header>
+
+            <section class="project-meta">
+                <p><strong>Nama Proyek:</strong> KURSOR</p>
+                <p><strong>Pengusul Utama:</strong> Ardelyo (L1O)</p>
+                <p><strong>Kolaborator:</strong> OurCreativity</p>
+                <p><strong>Inspirasi & Pembimbing:</strong> Pak Dadan Mochammad Ramdhan</p>
+                <p><strong>Konteks Proyek:</strong> Proyek DAMAR (Dukungan Aplikasi Menuju Aksesibilitas Rata)</p>
+                <p><strong>Tanggal Pengajuan:</strong> 24 Mei 2024 (Asumsi)</p>
+                <p><strong>Versi Dokumen:</strong> 1.0</p>
+            </section>
+
+            <article>
+                <section id="abstrak">
+                    <h2>Abstrak</h2>
+                    <div id="abstrak-eksekutif">
+                        <h3>Abstrak Eksekutif</h3>
+                        <p>Interaksi manusia-komputer (IMK) merupakan aspek fundamental dalam penggunaan teknologi digital. Namun, metode input konvensional seperti mouse dan keyboard seringkali menjadi penghalang bagi individu dengan keterbatasan fisik atau motorik. Proyek "Kursor" bertujuan untuk mengembangkan sebuah sistem kontrol kursor inovatif yang memanfaatkan gestur tangan dan gerakan kepala sebagai alternatif input. Dibangun menggunakan teknologi visi komputer canggih dari <span class="highlight">MediaPipe</span> dan <span class="highlight">OpenCV</span> dalam lingkungan Python, Kursor menawarkan dua mode kontrol utama: mode tangan yang melacak jari untuk berbagai aksi mouse, dan mode kepala yang menggunakan fitur wajah sebagai pointer dengan dukungan dwell-click dan aksi berbasis kedipan mata. Aplikasi ini juga dilengkapi dengan keyboard virtual yang dapat diakses melalui metode dwell-hover, meningkatkan kemandirian pengguna. Kursor dirancang untuk meningkatkan aksesibilitas digital, memberikan solusi intuitif dan adaptif bagi pengguna dengan kebutuhan khusus, serta berkontribusi pada penelitian di bidang teknologi asistif. Proyek ini, sebagai bagian dari inisiatif DAMAR (Dukungan Aplikasi Menuju Aksesibilitas Rata), diharapkan dapat memberikan dampak positif yang signifikan dalam mempromosikan inklusivitas di era digital.</p>
+                    </div>
+                    <div id="abstrak-teknis">
+                        <h3>Abstrak Teknis</h3>
+                        <p>Proyek "Kursor" mengimplementasikan sistem kontrol kursor berbasis visi komputer. Sistem ini memanfaatkan pustaka <span class="highlight">MediaPipe</span> untuk deteksi dan pelacakan landmark tangan (Hand Landmarker) dan wajah (Face Mesh) secara real-time melalui input webcam. Untuk mode tangan, landmark spesifik seperti ujung jari telunjuk (landmark #8) digunakan sebagai pointer, sementara konfigurasi jari-jari lainnya (misalnya, pinch antara ibu jari dan telunjuk, atau ibu jari dan jari tengah) diterjemahkan menjadi aksi klik kiri, klik kanan, scroll, dan drag. Pengaturan sensitivitas, threshold gestur, dan parameter lainnya dapat dikonfigurasi melalui antarmuka grafis (GUI) berbasis <span class="highlight">Tkinter</span> dan disimpan dalam format JSON. Mode kepala menggunakan landmark wajah (misalnya, hidung, landmark #1) sebagai pointer, dengan implementasi dwell-click untuk klik kiri dan deteksi kedipan mata (berdasarkan Eye Aspect Ratio - EAR) untuk aksi yang dapat dikustomisasi. Sebuah keyboard virtual QWERTY juga diintegrasikan, memungkinkan input teks melalui dwell-hover pada tombol virtual yang ditampilkan di layar. Arsitektur perangkat lunak terdiri dari modul-modul utama: <code>config_manager.py</code> untuk manajemen konfigurasi, <code>tracker.py</code> (HandTracker dan FaceTracker), <code>mouse_handler.py</code> untuk interaksi dengan sistem operasi (PyAutoGUI), <code>virtual_keyboard.py</code>, dan <code>gui_settings.py</code>. Proyek ini dikembangkan menggunakan Python, dengan OpenCV untuk pemrosesan citra, NumPy untuk operasi numerik, dan PyAutoGUI untuk emulasi input mouse dan keyboard.</p>
+                    </div>
+                </section>
+
+                <section id="pendahuluan">
+                    <h2>Pendahuluan</h2>
+                    <div id="latar-belakang">
+                        <h3>Latar Belakang</h3>
+                        <p>Di era digital saat ini, kemampuan untuk berinteraksi secara efektif dengan komputer menjadi krusial dalam berbagai aspek kehidupan, mulai dari pendidikan, pekerjaan, hingga hiburan. Metode input standar seperti mouse dan keyboard fisik, meskipun umum digunakan, dapat menjadi tantangan signifikan bagi individu dengan keterbatasan fisik, cedera, atau kondisi neurologis yang mempengaruhi kontrol motorik halus. Keterbatasan ini dapat menghambat partisipasi penuh mereka dalam masyarakat digital.</p>
+                        <p>Teknologi asistif telah berkembang pesat untuk mengatasi tantangan ini, menawarkan berbagai solusi alternatif. Salah satu pendekatan yang menjanjikan adalah penggunaan visi komputer untuk menerjemahkan gerakan tubuh atau ekspresi wajah menjadi perintah kontrol komputer. Dengan kemajuan dalam algoritma machine learning dan ketersediaan pustaka seperti MediaPipe dari Google, deteksi dan pelacakan gestur secara real-time menjadi semakin akurat dan mudah diakses.</p>
+                        <blockquote>
+                            <p>Proyek "Kursor" diinspirasi oleh kebutuhan akan solusi kontrol kursor yang lebih intuitif, adaptif, dan aksesibel. Dengan memanfaatkan kekuatan gestur tangan alami dan gerakan kepala, Kursor bertujuan untuk memberdayakan pengguna dengan berbagai tingkat kemampuan fisik untuk berinteraksi dengan komputer secara lebih mandiri dan efisien.</p>
+                        </blockquote>
+                        <p>Inisiatif ini sejalan dengan semangat proyek DAMAR (Dukungan Aplikasi Menuju Aksesibilitas Rata) yang berfokus pada pengembangan solusi teknologi yang bermanfaat bagi masyarakat luas, khususnya dalam meningkatkan kualitas hidup dan inklusivitas.</p>
+                    </div>
+                    <div id="rumusan-masalah">
+                        <h3>Rumusan Masalah</h3>
+                        <p>Proyek ini berupaya menjawab beberapa tantangan dan pertanyaan utama:</p>
+                        <ul>
+                            <li>Bagaimana merancang dan mengimplementasikan sistem kontrol kursor yang andal dan responsif menggunakan gestur tangan dan gerakan kepala melalui webcam standar?</li>
+                            <li>Bagaimana mengintegrasikan berbagai aksi mouse (gerakan, klik kiri/kanan, double klik, drag, scroll) secara intuitif melalui gestur yang mudah dipelajari dan dilakukan?</li>
+                            <li>Bagaimana menyediakan mekanisme input teks yang aksesibel melalui keyboard virtual yang dapat dikontrol dengan metode yang sama (misalnya, dwell-hover)?</li>
+                            <li>Bagaimana memastikan sistem dapat dikonfigurasi dengan mudah oleh pengguna untuk menyesuaikan sensitivitas, preferensi gestur, dan parameter lainnya sesuai kebutuhan individu?</li>
+                            <li>Seberapa efektif sistem Kursor dalam meningkatkan aksesibilitas komputer bagi pengguna dengan keterbatasan fisik dibandingkan metode input konvensional atau solusi asistif lainnya? (Evaluasi ini mungkin di luar lingkup pengembangan awal, namun menjadi pertimbangan desain).</li>
+                        </ul>
+                    </div>
+                    <div id="tujuan-proyek">
+                        <h3>Tujuan Proyek</h3>
+                        <p>Tujuan utama dari proyek "Kursor" adalah:</p>
+                        <ol>
+                            <li><strong>Mengembangkan Aplikasi Fungsional:</strong> Membuat aplikasi Kursor yang stabil dan berfungsi penuh.</li>
+                            <li><strong>Implementasi Mode Ganda:</strong> Menyediakan mode kontrol tangan dan kepala.</li>
+                            <li><strong>Integrasi Keyboard Virtual:</strong> Mengintegrasikan keyboard QWERTY yang aksesibel.</li>
+                            <li><strong>Konfigurabilitas Tinggi:</strong> Merancang sistem konfigurasi yang fleksibel (GUI & JSON).</li>
+                            <li><strong>Dokumentasi Komprehensif:</strong> Menyediakan dokumentasi teknis dan pengguna.</li>
+                            <li><strong>Kontribusi pada Proyek DAMAR:</strong> Menghasilkan produk teknologi bermanfaat.</li>
+                        </ol>
+                    </div>
+                    <div id="manfaat-proyek">
+                        <h3>Manfaat Proyek</h3>
+                        <ul>
+                            <li>Peningkatan Aksesibilitas bagi individu dengan disabilitas motorik.</li>
+                            <li>Peningkatan Kemandirian pengguna dalam tugas komputasi.</li>
+                            <li>Solusi Inovatif untuk kontrol komputer hands-free.</li>
+                            <li>Kontribusi Edukasi dan Penelitian di bidang IMK dan teknologi asistif.</li>
+                            <li>Pemberdayaan Komunitas melalui teknologi inklusif.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="tinjauan-pustaka">
+                    <h2>Tinjauan Pustaka</h2>
+                    <p>Interaksi Manusia-Komputer (IMK) terus berkembang, mencari cara yang lebih alami dan efisien bagi manusia untuk berkomunikasi dengan mesin. Visi komputer telah muncul sebagai bidang kunci dalam evolusi ini, memungkinkan komputer untuk "melihat" dan menginterpretasikan dunia visual. Dalam konteks teknologi asistif, visi komputer menawarkan potensi besar untuk menerjemahkan gerakan fisik atau ekspresi menjadi perintah kontrol.</p>
+                    <p>Salah satu teknologi terdepan dalam hal ini adalah <span class="highlight">MediaPipe</span> dari Google. MediaPipe menyediakan serangkaian solusi machine learning lintas platform yang siap pakai untuk deteksi wajah, pelacakan tangan, estimasi pose, dan lainnya. Solusi Hand Landmarker-nya mampu mendeteksi hingga 21 titik kunci (landmark) 3D pada tangan, sementara Face Mesh dapat mendeteksi ratusan landmark pada wajah. Akurasi dan performa real-time dari MediaPipe menjadikannya pilihan ideal untuk aplikasi kontrol berbasis gestur seperti Kursor.</p>
+                    <p>Penggunaan gestur tangan untuk kontrol komputer bukanlah konsep baru. Berbagai penelitian telah mengeksplorasi pengenalan gestur statis dan dinamis. Kursor mengadopsi pendekatan berbasis landmark, di mana posisi relatif dari landmark jari (misalnya, jarak antara ujung ibu jari dan telunjuk) digunakan untuk memicu aksi seperti klik. Pendekatan ini umumnya lebih robust terhadap variasi kecil dalam penampilan tangan dibandingkan dengan metode pengenalan gestur berbasis template citra penuh.</p>
+                    <p>Kontrol berbasis gerakan kepala juga telah banyak diteliti, seringkali menggunakan hidung atau titik tengah antara mata sebagai pointer. Aksi klik dalam sistem seperti ini sering diimplementasikan melalui dwell-time, di mana kursor yang diam pada satu titik selama durasi tertentu akan memicu klik. Alternatif lain adalah deteksi kedipan mata, yang dapat diukur menggunakan metrik seperti Eye Aspect Ratio (EAR), yang menghitung rasio antara jarak vertikal dan horizontal landmark mata.</p>
+                    <p>Integrasi keyboard virtual adalah komponen penting untuk menyediakan solusi input yang komprehensif. Keyboard virtual yang ditampilkan di layar dapat dioperasikan melalui dwell-hover, di mana menahan pointer di atas sebuah tombol selama interval waktu tertentu akan "menekan" tombol tersebut.</p>
+                    <p>Proyek Kursor membangun di atas fondasi penelitian dan teknologi yang sudah ada ini, dengan fokus pada integrasi fitur-fitur tersebut ke dalam satu aplikasi yang kohesif, dapat dikonfigurasi, dan ramah pengguna, dengan memanfaatkan pustaka Python seperti <span class="highlight">OpenCV</span> untuk pemrosesan citra, <span class="highlight">NumPy</span> untuk manipulasi data, dan <span class="highlight">PyAutoGUI</span> untuk interaksi dengan sistem operasi.</p>
+                </section>
+
+                <section id="metodologi-pengembangan">
+                    <h2>Metodologi Pengembangan</h2>
+                    <p>Proyek Kursor akan dikembangkan menggunakan pendekatan iteratif dan modular, berdasarkan fondasi kode "Kursor (kode basis awal)" yang telah ada. Fokus utama adalah pada penyempurnaan, integrasi fitur, pengujian, dan dokumentasi.</p>
+                    <!-- Placeholder: System Architecture Diagram for Kursor -->
+                    <div class="placeholder-info">Visualisasi Diagram Arsitektur Sistem Kursor akan ditempatkan di sini.</div>
+
+                    <div id="tahapan-pengembangan">
+                        <h3>Tahapan Pengembangan</h3>
+                        <ol>
+                            <li><strong>Fase 1: Analisis Kebutuhan dan Studi Literatur Lanjutan</strong> (Penyempurnaan)
+                                <ul>
+                                    <li>Menganalisis kode sumber Kursor (kode basis awal).</li>
+                                    <li>Identifikasi perbaikan, optimasi, fitur baru.</li>
+                                    <li>Studi literatur tambahan (teknik gestur, UI/UX asistif).</li>
+                                    <li>Spesifikasi detail fungsionalitas Kursor.</li>
+                                    <li><em>Luaran:</em> Dokumen spesifikasi kebutuhan dan desain sistem diperbarui.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fase 2: Desain Sistem dan Antarmuka</strong> (Iterasi)
+                                <ul>
+                                    <li>Desain arsitektur final (modular, skalabel).</li>
+                                    <li>Penyempurnaan GUI pengaturan (Tkinter). <!-- Placeholder: Example UI Mockup of Kursor Settings Panel --></li>
+                                    <li>Desain tata letak keyboard virtual. <!-- Placeholder: Example UI Mockup of Kursor Virtual Keyboard --></li>
+                                    <li>Finalisasi set gestur tangan dan kepala.</li>
+                                    <li><em>Luaran:</em> Mockup UI/UX (konseptual), diagram arsitektur, definisi gestur final.</li>
+                                </ul>
+                                <div class="placeholder-info">Mockup UI/UX untuk GUI Pengaturan dan Keyboard Virtual akan disajikan di sini.</div>
+                            </li>
+                            <li><strong>Fase 3: Implementasi dan Pengembangan Modul</strong> (Iterasi pada Kode Ada)
+                                <ul>
+                                    <li>Refaktorisasi & optimasi kode Kursor (kode basis awal).</li>
+                                    <li>Implementasi/penyempurnaan modul HandTracker & FaceTracker.</li>
+                                    <li>Pengembangan/penyempurnaan MouseHandler (termasuk cooldown).</li>
+                                    <li>Pengembangan keyboard virtual (dwell-typing, interaksi pyautogui).</li>
+                                    <li>Pengembangan/penyempurnaan GUI pengaturan & manajemen konfigurasi.</li>
+                                    <li><em>Luaran:</em> Kode sumber Kursor terimplementasi & teruji unit.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fase 4: Integrasi Sistem dan Pengujian Awal</strong>
+                                <ul>
+                                    <li>Integrasi semua modul menjadi aplikasi Kursor.</li>
+                                    <li>Pengujian fungsional menyeluruh.</li>
+                                    <li>Pengujian performa (FPS, latensi).</li>
+                                    <li>Debugging dan perbaikan bug.</li>
+                                    <li><em>Luaran:</em> Versi alpha/beta aplikasi Kursor stabil.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fase 5: Pengujian Pengguna dan Evaluasi</strong> (Jika Memungkinkan)
+                                 <ul>
+                                    <li>Skenario pengujian pengguna.</li>
+                                    <li>Melibatkan pengguna target (jika memungkinkan).</li>
+                                    <li>Pengumpulan umpan balik (usabilitas, intuitivitas).</li>
+                                    <li>Analisis hasil pengujian.</li>
+                                    <li><em>Luaran:</em> Laporan pengujian pengguna, rekomendasi perbaikan.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fase 6: Iterasi Penyempurnaan dan Finalisasi</strong>
+                                <ul>
+                                    <li>Perbaikan berdasarkan umpan balik Fase 5.</li>
+                                    <li>Optimasi akhir kode dan performa.</li>
+                                    <li><em>Luaran:</em> Versi rilis kandidat aplikasi Kursor.</li>
+                                </ul>
+                            </li>
+                             <li><strong>Fase 7: Dokumentasi dan Pelaporan Akhir</strong>
+                                <ul>
+                                    <li>Dokumentasi pengguna (instalasi, penggunaan, kustomisasi).</li>
+                                    <li>Dokumentasi teknis (arsitektur, modul).</li>
+                                    <li>Laporan akhir proyek.</li>
+                                    <li><em>Luaran:</em> Dokumentasi lengkap, laporan akhir.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    <div id="teknologi-digunakan">
+                        <h3>Teknologi yang Digunakan</h3>
+                        <ul>
+                            <li><strong>Bahasa Pemrograman:</strong> Python 3.7+</li>
+                            <li><strong>Visi Komputer & Pemrosesan Citra:</strong>
+                                <ul>
+                                    <li><span class="highlight">OpenCV (opencv-python):</span> Akuisisi frame, pemrosesan citra.</li>
+                                    <li><span class="highlight">MediaPipe (mediapipe):</span> Deteksi & pelacakan landmark.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Emulasi Input:</strong> <span class="highlight">PyAutoGUI (pyautogui):</span> Kontrol sistem.</li>
+                            <li><strong>Manipulasi Data:</strong> <span class="highlight">NumPy (numpy):</span> Operasi array.</li>
+                            <li><strong>Antarmuka Grafis (GUI):</strong> <span class="highlight">Tkinter</span> (Python).</li>
+                            <li><strong>Manajemen Konfigurasi:</strong> Modul <span class="highlight">json</span> (Python).</li>
+                            <li><strong>Lainnya:</strong> Modul <code>os</code>, <code>time</code>, <code>math</code>.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="rencana-implementasi">
+                    <h2>Rencana Implementasi dan Jadwal Proyek</h2>
+                    <p>Estimasi jadwal ini mengasumsikan proyek dimulai dari adaptasi kode "Kursor (kode basis awal)".</p>
+                    <div id="rincian-fase">
+                        <h3>Rincian Fase dan Aktivitas (Estimasi Durasi)</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Fase</th>
+                                    <th>Aktivitas Utama</th>
+                                    <th>Estimasi Durasi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Inisiasi & Perencanaan Lanjut</td>
+                                    <td>Analisis kode Kursor (kode basis awal), finalisasi ruang lingkup, perencanaan detail.</td>
+                                    <td>1 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Desain Sistem & Antarmuka</td>
+                                    <td>Arsitektur, UI/UX GUI & Keyboard, finalisasi gestur.</td>
+                                    <td>1-2 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Pengembangan Modul Inti</td>
+                                    <td>Refaktorisasi, HandTracker, FaceTracker, MouseHandler.</td>
+                                    <td>2-3 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Pengembangan Keyboard & GUI</td>
+                                    <td>Implementasi VirtualKeyboard, gui_settings.py, config_manager.py.</td>
+                                    <td>2-3 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Integrasi & Pengujian Awal</td>
+                                    <td>Penggabungan modul, pengujian fungsional, debugging.</td>
+                                    <td>1-2 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Pengujian Pengguna & Umpan Balik</td>
+                                    <td>(Opsional) Skenario, sesi pengujian, analisis umpan balik.</td>
+                                    <td>1-2 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Iterasi Penyempurnaan</td>
+                                    <td>Perbaikan berdasarkan pengujian, optimasi akhir.</td>
+                                    <td>1-2 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>Dokumentasi & Pelaporan</td>
+                                    <td>Dokumentasi pengguna, teknis, laporan akhir.</td>
+                                    <td>1-2 Minggu</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align:right; font-weight:bold;">Total Estimasi Durasi Proyek</td>
+                                    <td style="font-weight:bold;">10-17 Minggu</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="diagram-gantt">
+                        <h3>Diagram Gantt (Deskriptif)</h3>
+                         <table>
+                            <thead>
+                                <tr>
+                                    <th>Minggu Ke-</th>
+                                    <th>Fase Terkait (Merujuk pada Tabel Rincian Fase)</th>
+                                    <th>Fokus Utama / Aktivitas Paralel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Fase 1</td>
+                                    <td>Analisis kode basis, finalisasi ruang lingkup, perencanaan detail.</td>
+                                </tr>
+                                <tr>
+                                    <td>2-3</td>
+                                    <td>Fase 2, Mulai Fase 3</td>
+                                    <td>Desain arsitektur, UI/UX, finalisasi gestur; Memulai refaktorisasi & pengembangan tracker.</td>
+                                </tr>
+                                <tr>
+                                    <td>4-5</td>
+                                    <td>Lanjutan Fase 3, Mulai Fase 4</td>
+                                    <td>Pengembangan modul inti (HandTracker, FaceTracker, MouseHandler); Memulai pengembangan Keyboard Virtual & GUI.</td>
+                                </tr>
+                                <tr>
+                                    <td>6-7</td>
+                                    <td>Lanjutan Fase 4, Penyelesaian Fase 3</td>
+                                    <td>Finalisasi Keyboard Virtual & GUI; Penyelesaian modul inti dan integrasi awal.</td>
+                                </tr>
+                                <tr>
+                                    <td>8-9</td>
+                                    <td>Fase 5</td>
+                                    <td>Integrasi sistem menyeluruh, pengujian fungsional dan performa, debugging.</td>
+                                </tr>
+                                <tr>
+                                    <td>10-11</td>
+                                    <td>(Opsional) Fase 6</td>
+                                    <td>Pelaksanaan pengujian pengguna (jika dilakukan), pengumpulan dan analisis umpan balik.</td>
+                                </tr>
+                                <tr>
+                                    <td>12-13</td>
+                                    <td>Fase 7 (jika Fase 6 dilakukan, mungkin tumpang tindih atau mengikuti)</td>
+                                    <td>Iterasi perbaikan berdasarkan hasil pengujian, optimasi akhir kode dan performa.</td>
+                                </tr>
+                                <tr>
+                                    <td>14-15 (atau lebih awal/kemudian tergantung fase opsional)</td>
+                                    <td>Fase 8</td>
+                                    <td>Penyusunan dokumentasi pengguna dan teknis, pembuatan laporan akhir proyek.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><em>Catatan: Beberapa aktivitas dalam fase yang berbeda dapat berjalan secara paralel untuk efisiensi waktu. Durasi total (10-17 minggu) memperhitungkan fleksibilitas ini dan fase opsional.</em></p>
+                        <!-- Placeholder: Visual Gantt Chart Image/Embed -->
+                        <div class="placeholder-info">Representasi visual Diagram Gantt (misalnya, gambar atau grafik interaktif) akan ditempatkan di sini.</div>
+                    </div>
+                </section>
+
+                <section id="struktur-tim">
+                    <h2>Struktur Tim dan Peran</h2>
+                    <ul>
+                        <li><strong>Ardelyo (L1O) - Pengembang Utama / Arsitek Sistem:</strong>
+                            <ul>
+                                <li>Arsitektur teknis Kursor.</li>
+                                <li>Pengembangan, implementasi, refaktorisasi kode inti.</li>
+                                <li>Integrasi modul.</li>
+                                <li>Pengujian teknis & debugging.</li>
+                                <li>Dokumentasi teknis.</li>
+                            </ul>
+                        </li>
+                        <li><strong>OurCreativity - Kolaborator (Desain UI/UX, Pengujian, Dokumentasi):</strong>
+                            <ul>
+                                <li>Desain UI/UX (GUI Pengaturan, tema Keyboard Virtual).</li>
+                                <li>Masukan perspektif pengguna.</li>
+                                <li>Penyusunan skenario & pelaksanaan pengujian pengguna (jika dilakukan).</li>
+                                <li>Dokumentasi pengguna & materi pendukung.</li>
+                                <li>Diseminasi & promosi proyek.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pak Dadan Mochammad Ramdhan - Pembimbing / Penasihat Proyek:</strong>
+                            <ul>
+                                <li>Bimbingan teknis & non-teknis.</li>
+                                <li>Arahan strategis.</li>
+                                <li>Bantuan mengatasi tantangan.</li>
+                                <li>Validasi luaran proyek.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="luaran-proyek">
+                    <h2>Luaran Proyek (Deliverables)</h2>
+                    <ol>
+                        <li><strong>Aplikasi Kursor:</strong>
+                            <ul>
+                                <li>Kode sumber lengkap (Python).</li>
+                                <li>Versi aplikasi stabil & dapat dijalankan.</li>
+                                <li>File konfigurasi default (<code>settings.json</code>).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Dokumentasi Teknis:</strong>
+                            <ul>
+                                <li>Deskripsi arsitektur sistem (termasuk diagram).</li>
+                                <li>Penjelasan fungsionalitas modul utama.</li>
+                                <li>Panduan pengembang.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Dokumentasi Pengguna:</strong>
+                            <ul>
+                                <li>Panduan instalasi.</li>
+                                <li>Panduan penggunaan (mode tangan & kepala).</li>
+                                <li>Penjelasan gestur.</li>
+                                <li>Panduan keyboard virtual & GUI pengaturan.</li>
+                                <li>Tips troubleshooting.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Laporan Akhir Proyek:</strong>
+                            <ul>
+                                <li>Dokumen komprehensif siklus hidup proyek, termasuk hasil pengujian (jika ada) dan analisis.</li>
+                            </ul>
+                        </li>
+                        <li><strong>(Opsional) Materi Presentasi/Demonstrasi Proyek.</strong></li>
+                    </ol>
+                </section>
+
+                <section id="potensi-risiko">
+                    <h2>Potensi Risiko dan Mitigasi</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Risiko</th>
+                                <th>Kategori</th>
+                                <th>Probabilitas</th>
+                                <th>Dampak</th>
+                                <th>Strategi Mitigasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Akurasi deteksi gestur kurang optimal</td>
+                                <td>Teknis</td>
+                                <td>Sedang</td>
+                                <td>Tinggi</td>
+                                <td>Penyesuaian parameter MediaPipe, fine-tuning threshold, filtering/smoothing, dokumentasi kondisi ideal penggunaan.</td>
+                            </tr>
+                            <tr>
+                                <td>Kinerja aplikasi lambat (FPS rendah)</td>
+                                <td>Teknis</td>
+                                <td>Sedang</td>
+                                <td>Sedang</td>
+                                <td>Optimasi kode, penggunaan algoritma yang lebih efisien, penyesuaian resolusi kamera, rekomendasi spesifikasi hardware minimum.</td>
+                            </tr>
+                            <tr>
+                                <td>Masalah kompatibilitas OS/hardware</td>
+                                <td>Teknis</td>
+                                <td>Rendah</td>
+                                <td>Sedang</td>
+                                <td>Pengujian pada berbagai konfigurasi OS dan hardware yang umum, penggunaan pustaka cross-platform.</td>
+                            </tr>
+                            <tr>
+                                <td>Kesulitan integrasi keyboard virtual dengan berbagai aplikasi</td>
+                                <td>Teknis</td>
+                                <td>Rendah</td>
+                                <td>Sedang</td>
+                                <td>Desain modular yang baik, pengujian unit intensif, penggunaan metode emulasi input yang robust (PyAutoGUI).</td>
+                            </tr>
+                            <tr>
+                                <td>Keterbatasan waktu pengembangan</td>
+                                <td>Proyek & Manajemen</td>
+                                <td>Sedang</td>
+                                <td>Tinggi</td>
+                                <td>Perencanaan yang realistis dan terperinci, prioritisasi fitur inti, komunikasi tim yang efektif, pemanfaatan maksimal dari kode basis awal Kursor.</td>
+                            </tr>
+                            <tr>
+                                <td>Kurangnya sumber daya untuk pengujian pengguna yang representatif</td>
+                                <td>Proyek & Manajemen</td>
+                                <td>Tinggi</td>
+                                <td>Sedang</td>
+                                <td>Pengujian internal yang komprehensif oleh tim, pengumpulan umpan balik dari komunitas terbatas, atau merencanakan pengujian pengguna sebagai fase lanjutan pasca-rilis awal.</td>
+                            </tr>
+                            <tr>
+                                <td>Kurva belajar yang curam bagi pengguna baru</td>
+                                <td>Pengguna</td>
+                                <td>Sedang</td>
+                                <td>Sedang</td>
+                                <td>Dokumentasi pengguna yang jelas dan mudah dipahami, tutorial video (jika memungkinkan), desain gestur yang intuitif, antarmuka konfigurasi yang ramah pengguna.</td>
+                            </tr>
+                            <tr>
+                                <td>Frustrasi pengguna akibat kesalahan deteksi atau lag</td>
+                                <td>Pengguna</td>
+                                <td>Sedang</td>
+                                <td>Tinggi</td>
+                                <td>(Lihat mitigasi untuk akurasi gestur dan kinerja), memberikan umpan balik visual yang jelas kepada pengguna mengenai status deteksi, opsi untuk menonaktifkan sementara gestur tertentu.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="penutup">
+                    <h2>Penutup</h2>
+                    <p>Proyek "Kursor" memiliki potensi besar untuk memberikan kontribusi signifikan dalam meningkatkan aksesibilitas digital bagi individu dengan berbagai keterbatasan fisik. Dengan memanfaatkan teknologi visi komputer mutakhir dan pendekatan pengembangan yang berpusat pada pengguna, kami yakin dapat menghasilkan aplikasi yang fungsional, intuitif, dan bermanfaat.</p>
+                    <p>Melalui kolaborasi antara Ardelyo (L1O) dan OurCreativity, serta bimbingan dari Pak Dadan Mochammad Ramdhan, proyek ini diharapkan dapat berjalan lancar dan mencapai semua tujuan yang telah ditetapkan. Sebagai bagian dari inisiatif proyek DAMAR (Dukungan Aplikasi Menuju Aksesibilitas Rata), Kursor tidak hanya bertujuan sebagai solusi teknologi, tetapi juga sebagai wujud nyata dari upaya menciptakan teknologi yang inklusif dan memberdayakan.</p>
+                    <p>Kami berharap proposal ini dapat memberikan gambaran yang jelas mengenai visi, ruang lingkup, metodologi, dan rencana implementasi proyek Kursor. Kami siap untuk menjalankan proyek ini dengan dedikasi dan komitmen penuh untuk menghasilkan luaran terbaik.</p>
+                </section>
+
+                <section id="lampiran">
+                    <h2>Lampiran (Referensi Kode Sumber)</h2>
+                    <p>Kode sumber awal ("Kursor (kode basis awal)") yang menjadi dasar pengembangan proyek Kursor terdiri dari file-file berikut (struktur dapat berubah selama pengembangan):</p>
+                    <div class="code-reference">
+                        <strong>File Utama (Contoh Struktur Awal):</strong>
+                        <ul>
+                            <li><code>main.py</code> (Titik masuk utama aplikasi)</li>
+                            <li><code>tracker.py</code> (Mengelola HandTracker dan FaceTracker dari MediaPipe)</li>
+                            <li><code>mouse_handler.py</code> (Mengelola emulasi aksi mouse via PyAutoGUI)</li>
+                            <li><code>virtual_keyboard.py</code> (Implementasi keyboard virtual dan interaksinya)</li>
+                            <li><code>gui_settings.py</code> (Mengelola antarmuka grafis untuk pengaturan)</li>
+                            <li><code>config_manager.py</code> (Membaca dan menyimpan konfigurasi pengguna)</li>
+                        </ul>
+                        <strong>File Pendukung:</strong>
+                        <ul>
+                            <li><code>settings.json</code> (Contoh file konfigurasi default/pengguna)</li>
+                            <li><code>requirements.txt</code> (Daftar dependensi Python)</li>
+                            <li><code>readme.md</code> (Dokumentasi awal dan panduan pengembangan)</li>
+                        </ul>
+                    </div>
+                    <p>Kode sumber ini akan direview, direfaktor, dan dikembangkan lebih lanjut sesuai dengan rencana yang telah dijabarkan dalam proposal ini untuk menjadi aplikasi Kursor yang final.</p>
+                </section>
+            </article>
+
+            <footer class="document-footer">
+                <p>&copy; 2024 Proyek KURSOR - Inisiatif Proyek DAMAR (Dukungan Aplikasi Menuju Aksesibilitas Rata). Sebuah Proyek oleh Ardelyo (L1O) & OurCreativity.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tocLinks = document.querySelectorAll('#toc a');
+            const sections = document.querySelectorAll('.main-content section[id], .main-content div[id]');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+
+            // Sidebar toggle for mobile
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            // Close sidebar when a link is clicked on mobile
+             tocLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 992 && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+
+
+            // Active link highlighting in ToC based on scroll
+            function onScroll() {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - (document.querySelector('.main-content').offsetTop + 150); // Adjust offset as needed
+                    if (window.pageYOffset >= sectionTop) {
+                        currentSectionId = section.id;
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                        // Auto-scroll sidebar to show active link if needed
+                        const activeLinkInSidebar = sidebar.querySelector(`a.active`);
+                        if (activeLinkInSidebar) {
+                           // Simple check: if active link is not fully visible, scroll it into view
+                           const linkRect = activeLinkInSidebar.getBoundingClientRect();
+                           const sidebarRect = sidebar.getBoundingClientRect();
+                           if (linkRect.bottom > sidebarRect.bottom || linkRect.top < sidebarRect.top) {
+                               activeLinkInSidebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                           }
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', onScroll);
+            onScroll(); // Initial check
+        });
+    </script>
+</body>
+</html>
