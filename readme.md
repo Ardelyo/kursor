@@ -40,7 +40,7 @@
 
 ## 🌟 Tentang KURSOR
 
-**KURSOR** adalah aplikasi Python revolusioner yang mengubah cara Anda berinteraksi dengan komputer. Dikembangkan sebagai bagian dari **Proyek DAMAR** oleh **Ardelyo (L1O) & OurCreativity**, dengan inspirasi dari **Pak Dadan Mochammad Ramdhan**, KURSOR memanfaatkan kekuatan Computer Vision untuk memberikan kontrol mouse yang intuitif melalui gestur tangan dan gerakan kepala.
+**KURSOR** adalah aplikasi Python revolusioner yang mengubah cara Anda berinteraksi dengan komputer. Dikembangkan sebagai bagian dari **Proyek DAMAR** *(Dukungan Aplikasi Menuju Aksesibilitas Rata)* oleh **Ardelyo (L1O) & OurCreativity Community**, dengan inspirasi dari **Pak Dadan Mochammad Ramdhan**, KURSOR memanfaatkan kekuatan Computer Vision untuk memberikan kontrol mouse yang intuitif melalui gestur tangan dan gerakan kepala.
 
 ### 🎯 Visi & Misi
 
@@ -126,7 +126,7 @@
 
 ```bash
 # 1. Clone Repository
-git clone https://github.com/username/kursor.git
+git clone https://github.com/ardelyo/kursor.git
 cd kursor
 
 # 2. Buat Virtual Environment
