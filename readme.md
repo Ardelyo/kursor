@@ -25,9 +25,9 @@
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-Latest-orange?style=for-the-badge&logo=google&logoColor=white)](https://mediapipe.dev/)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen?style=for-the-badge&logo=github-actions&logoColor=white)]()
 
-[![GitHub Stars](https://img.shields.io/github/stars/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor/issues)
 [![Accessibility](https://img.shields.io/badge/Accessibility-A11y-blue?style=for-the-badge&logo=accessibility&logoColor=white)](https://www.w3.org/WAI/)
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge&logo=github&logoColor=white)](https://makeapullrequest.com)
