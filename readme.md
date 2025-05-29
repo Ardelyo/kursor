@@ -637,21 +637,15 @@ ga ada. :(
 
 ### 💝 Support the Project
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/username)
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/kursor)
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/kursor)
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/Ardelyo)
 
 ---
 
 ### 📱 Connect With Us
 
-[![Website](https://img.shields.io/badge/Website-kursor.id-blue?style=for-the-badge&logo=firefox&logoColor=white)](https://kursor.id)
-[![GitHub](https://img.shields.io/badge/GitHub-KURSOR-black?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor)
-[![YouTube](https://img.shields.io/badge/YouTube-KURSOR-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@kursor)
-
-[![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/kursor)
-[![Telegram](https://img.shields.io/badge/Telegram-Join%20Group-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/kursor_id)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Follow%20Updates-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/company/kursor)
+[![Website](https://img.shields.io/badge/Website-kursor.id-blue?style=for-the-badge&logo=firefox&logoColor=white)](https://ardelyo.lovable.app)
+[![GitHub](https://img.shields.io/badge/GitHub-KURSOR-black?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor)
+[![YouTube](https://img.shields.io/badge/YouTube-KURSOR-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@AldicoCorner)
 
 ---
 
