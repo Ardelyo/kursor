@@ -609,9 +609,7 @@ SOFTWARE.
 
 <div align="center">
 
-[![Indonesia Innovation](https://img.shields.io/badge/Indonesia%20Innovation-Award%202024-gold?style=for-the-badge&logo=trophy&logoColor=white)]()
-[![Open Source Excellence](https://img.shields.io/badge/Open%20Source-Excellence%20Award-silver?style=for-the-badge&logo=opensource&logoColor=white)]()
-[![Accessibility Champion](https://img.shields.io/badge/Accessibility-Champion%202024-bronze?style=for-the-badge&logo=accessibility&logoColor=white)]()
+ga ada. :(
 
 </div>
 
