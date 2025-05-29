@@ -428,7 +428,7 @@ Kami sangat menyambut kontribusi dari komunitas!
 
 **🙏 Terima kasih kepada semua kontributor:**
 
-[![Contributors](https://img.shields.io/github/contributors/username/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor/graphs/contributors)
+[![Contributors](https://img.shields.io/github/contributors/Ardelyo/kursor?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor/graphs/contributors)
 
 </div>
 
@@ -485,7 +485,7 @@ Vote untuk fitur yang Anda inginkan:
 
 <div align="center">
 
-[![Downloads](https://img.shields.io/github/downloads/username/kursor/total?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor/releases)
+[![Downloads](https://img.shields.io/github/downloads/Ardelyo/kursor/total?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor/releases)
 [![Views](https://img.shields.io/badge/Repository%20Views-10K%2B-brightgreen?style=for-the-badge&logo=github&logoColor=white)]()
 [![Active Users](https://img.shields.io/badge/Active%20Users-500%2B-orange?style=for-the-badge&logo=users&logoColor=white)]()
 
@@ -498,11 +498,11 @@ Vote untuk fitur yang Anda inginkan:
 ### 📞 Dapatkan Bantuan
 
 <div align="center">
-
+## SOON
 | 📚 **Documentation** | 💬 **Community** | 🐛 **Issues** |
 |:---:|:---:|:---:|
 | [User Guide](docs/user-guide.md) | [Discord Server](https://discord.gg/kursor) | [Report Bug](https://github.com/username/kursor/issues) |
-| [API Reference](docs/api.md) | [Telegram Group](https://t.me/kursor_id) | [Feature Request](https://github.com/username/kursor/discussions) |
+| [API Reference](docs/api.md) | [Feature Request](https://github.com/username/kursor/discussions) |
 | [FAQ](docs/faq.md) | [WhatsApp Group](https://chat.whatsapp.com/kursor) | [Support Email](mailto:support@kursor.id) |
 
 </div>
@@ -633,7 +633,7 @@ SOFTWARE.
 
 ## 🚀 Ready to Transform Your Computing Experience?
 
-**[📥 Download KURSOR](https://github.com/username/kursor/releases/latest)**
+**[📥 Download KURSOR](https://github.com/Ardelyo/kursor/releases/latest)**
 
 ---
 
@@ -661,6 +661,6 @@ SOFTWARE.
 
 *"Membuka Akses, Memberdayakan Interaksi"*
 
-**© 2024 KURSOR Team. All rights reserved.**
+**© 2024 L1O Team. All rights reserved.**
 
 </div>
