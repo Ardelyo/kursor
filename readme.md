@@ -477,7 +477,7 @@ Kami sangat menyambut kontribusi dari komunitas!
 
 Vote untuk fitur yang Anda inginkan:
 
-[![Feature Requests](https://img.shields.io/badge/Feature%20Requests-Vote%20Now-blue?style=for-the-badge&logo=github&logoColor=white)](https://github.com/username/kursor/discussions/categories/feature-requests)
+[![Feature Requests](https://img.shields.io/badge/Feature%20Requests-Vote%20Now-blue?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ardelyo/kursor/discussions/categories/ideas)
 
 ---
 
@@ -501,8 +501,8 @@ Vote untuk fitur yang Anda inginkan:
 ## SOON
 | 📚 **Documentation** | 💬 **Community** | 🐛 **Issues** |
 |:---:|:---:|:---:|
-| [User Guide](docs/user-guide.md) | [Discord Server](https://discord.gg/kursor) | [Report Bug](https://github.com/username/kursor/issues) |
-| [API Reference](docs/api.md) | [Feature Request](https://github.com/username/kursor/discussions) |
+| [User Guide](docs/user-guide.md) | [Discord Server](https://discord.gg/kursor) | [Report Bug](https://github.com/Ardelyo/kursor/issues/new/choose) |
+| [API Reference](docs/api.md) | [Feature Request](https://github.com/Ardelyo/kursor/discussions/new?category=ideas) |
 | [FAQ](docs/faq.md) | [WhatsApp Group](https://chat.whatsapp.com/kursor) | [Support Email](mailto:support@kursor.id) |
 
 </div>
@@ -619,9 +619,9 @@ ga ada. :(
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=username&repo=kursor&show_icons=true&theme=radical)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Ardelyo&repo=kursor&show_icons=true&theme=radical)
 
-![Language Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=username&layout=compact&theme=radical)
+![Language Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Ardelyo&layout=compact&theme=radical)
 
 </div>
 

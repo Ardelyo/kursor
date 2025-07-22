@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import json
-import config_manager 
+from kursor.config import config_manager 
 
 class SettingsGUI:
     def __init__(self, root):

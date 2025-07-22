@@ -1,0 +1,106 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are created by a PyInstaller script from a 'spec' file
+#  often created by 'pyi-makespec --onefile'
+#  the default spec file is created in the same folder as the main script
+#  Let's assume that the spec file is moved to a 'spec' folder in your project's root
+*.spec
+
+# PyInstaller-onefile mode
+#  If you use the --onefile option, the executable is in 'dist' folder
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static analyzer
+.pytype/
+
+# profiling data
+.prof
+.prof.json
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+
+# Database
+*.sqlite3
+*.db
+
+# Log files
+*.log
+
+# Temporary files
+*.swp
+*~
+*.tmp
+
+# Personal files
+.idea/
+.vscode/
+
+# Kursor specific
+code - *.docx
+code - *.html
+code - *.pdf

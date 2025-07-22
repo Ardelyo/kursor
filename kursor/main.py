@@ -1,13 +1,13 @@
 import cv2
 import time
 import pyautogui
-import numpy as np 
+import numpy as npf
 import math 
 
-import config_manager 
-from tracker import HandTracker, FaceTracker
-from mouse_handler import MouseHandler
-from virtual_keyboard import VirtualKeyboard # Import VirtualKeyboard
+from kursor.config import config_manager
+from kursor.tracking.tracker import HandTracker, FaceTracker
+from kursor.input.mouse_handler import MouseHandler
+from kursor.input.virtual_keyboard import VirtualKeyboard # Import VirtualKeyboard
 
 def print_instructions(settings):
     print("\n--- AURA MOUSE - KONTROL POINTER ---")
@@ -336,13 +336,8 @@ def main():
         if vkeyboard.is_visible:
             # Pass raw_click_gesture for keyboard to attempt typing/action
             # If keyboard types, it might set action_performed_this_frame to true
-            char_typed = vkeyboard.handle_input(current_pointer_x_cam, current_pointer_y_cam, 
-                                                raw_click_gesture_for_keyboard and mouse_control_active)
-            if char_typed:
-                info_message_display = f"Ketik: {char_typed}"
-                keyboard_input_consumed_click = True 
-                # If keyboard typed, consider it the primary action for this "click" event
-                action_performed_this_frame = True 
+            vkeyboard.handle_input(pyautogui.position()[0], pyautogui.position()[1],
+                                                raw_click_gesture_for_keyboard and mouse_control_active) 
 
 
         if mouse_control_active and current_pointer_x_cam != -1 and not keyboard_input_consumed_click:
@@ -411,6 +406,8 @@ def main():
             print(f"Keyboard Virtual: {'Tampil' if keyboard_visible else 'Sembunyi'}")
 
     print("Membersihkan sumber daya...")
+    if vkeyboard.is_alive():
+        vkeyboard.root.quit()
     cap.release()
     cv2.destroyAllWindows()
     
