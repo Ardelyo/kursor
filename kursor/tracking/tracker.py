@@ -192,14 +192,14 @@ class FaceTracker:
             if len(self.results.multi_face_landmarks) > 0:
                  self.raw_face_landmarks = self.results.multi_face_landmarks[0].landmark 
 
-            if draw: 
+            if draw:
                 for face_lms_normalized in self.results.multi_face_landmarks:
                     self.mp_draw.draw_landmarks(
                         image=img,
                         landmark_list=face_lms_normalized,
                         connections=self.mp_face_mesh.FACEMESH_TESSELATION, 
                         landmark_drawing_spec=None, 
-                        connection_drawing_spec=self.mp_draw.DrawingSpec(color=(200,200,200), thickness=1, circle_radius=1)
+                        connection_drawing_spec=self.mp_draw.DrawingSpec(color=(200,200,200), thickness=1, circle_radius=1) if draw_landmarks else None
                     )
         return img, self.results
 
