@@ -5,10 +5,7 @@ from kursor.config import config_manager
 
 class SettingsGUI(tk.Frame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs)
-        self.master = master
-        self.master.title("Kursor Settings")
-        self.config(padding="10")
+        super().__init__(master, padding="10", **kwargs)
 
         self.settings = config_manager.load_settings()
 

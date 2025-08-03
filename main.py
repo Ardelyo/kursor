@@ -32,11 +32,11 @@ class CVThread(threading.Thread):
     def process_frame(self, frame):
         gesture = None
         if self.app.control_mode == "hand":
-            frame, _ = self.hand_tracker.find_hands(frame, draw_landmarks=self.app.settings.get("draw_landmarks", True))
+            frame, _ = self.hand_tracker.find_hands(frame)
             if self.app.mouse_control_active and self.hand_tracker.landmark_list:
                 gesture = self.hand_tracker.get_gestures()
         else: # Face mode
-            frame, _ = self.face_tracker.find_faces(frame, draw_landmarks=self.app.settings.get("draw_landmarks", True))
+            frame, _ = self.face_tracker.find_faces(frame)
             if self.app.mouse_control_active and self.face_tracker.raw_face_landmarks:
                 gesture = self.face_tracker.get_face_gestures(frame)
         return frame, gesture
