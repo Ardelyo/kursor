@@ -1,9 +1,8 @@
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from kursor.config import config_manager
 
-class SettingsGUI(tk.Frame):
+class SettingsGUI(ttk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master, padding="10", **kwargs)
 
@@ -57,12 +56,30 @@ class SettingsGUI(tk.Frame):
         ttk.Scale(sensitivity_frame, from_=0.1, to=1.0, orient=tk.HORIZONTAL, variable=self.sensitivity_var).pack(fill=tk.X)
 
     def create_hand_tab(self, parent):
-        # Hand settings here
-        ttk.Label(parent, text="Hand tracking settings will go here.").pack()
+        # Click Threshold
+        click_threshold_frame = ttk.LabelFrame(parent, text="Click Threshold Distance", padding="10")
+        click_threshold_frame.pack(fill=tk.X, pady=5)
+        self.click_threshold_var = tk.IntVar(value=self.settings.get("hand_gestures", {}).get("click_threshold"))
+        ttk.Scale(click_threshold_frame, from_=10, to=100, orient=tk.HORIZONTAL, variable=self.click_threshold_var).pack(fill=tk.X)
 
     def create_face_tab(self, parent):
-        # Face settings here
-        ttk.Label(parent, text="Face tracking settings will go here.").pack()
+        # EAR Threshold
+        ear_threshold_frame = ttk.LabelFrame(parent, text="Eye Aspect Ratio (EAR) Threshold", padding="10")
+        ear_threshold_frame.pack(fill=tk.X, pady=5)
+        self.ear_threshold_var = tk.DoubleVar(value=self.settings.get("face_detection", {}).get("eye_aspect_ratio_threshold"))
+        ttk.Scale(ear_threshold_frame, from_=0.1, to=0.4, orient=tk.HORIZONTAL, variable=self.ear_threshold_var).pack(fill=tk.X)
+
+        # Blink Actions
+        blink_actions_frame = ttk.LabelFrame(parent, text="Blink Actions", padding="10")
+        blink_actions_frame.pack(fill=tk.X, pady=5)
+
+        self.left_blink_action_var = tk.StringVar(value=self.settings.get("face_detection", {}).get("blink_left_action"))
+        ttk.Label(blink_actions_frame, text="Left Blink:").grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
+        ttk.Combobox(blink_actions_frame, textvariable=self.left_blink_action_var, values=["left_click", "right_click", "double_click", "scroll_up", "scroll_down"]).grid(row=0, column=1, padx=5, pady=5)
+
+        self.right_blink_action_var = tk.StringVar(value=self.settings.get("face_detection", {}).get("blink_right_action"))
+        ttk.Label(blink_actions_frame, text="Right Blink:").grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
+        ttk.Combobox(blink_actions_frame, textvariable=self.right_blink_action_var, values=["left_click", "right_click", "double_click", "scroll_up", "scroll_down"]).grid(row=1, column=1, padx=5, pady=5)
 
     def load_settings_to_gui(self):
         # This will be expanded to load all settings
@@ -71,6 +88,12 @@ class SettingsGUI(tk.Frame):
     def save_settings(self):
         self.settings["control_mode"] = self.control_mode_var.get()
         self.settings["mouse_sensitivity"] = self.sensitivity_var.get()
+        self.settings["hand_gestures"] = {"click_threshold": self.click_threshold_var.get()}
+        self.settings["face_detection"] = {
+            "eye_aspect_ratio_threshold": self.ear_threshold_var.get(),
+            "blink_left_action": self.left_blink_action_var.get(),
+            "blink_right_action": self.right_blink_action_var.get()
+        }
         config_manager.save_settings(self.settings)
         messagebox.showinfo("Settings Saved", "Your settings have been saved successfully.")
         self.master.destroy()

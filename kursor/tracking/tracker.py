@@ -199,7 +199,7 @@ class FaceTracker:
                         landmark_list=face_lms_normalized,
                         connections=self.mp_face_mesh.FACEMESH_TESSELATION, 
                         landmark_drawing_spec=None, 
-                        connection_drawing_spec=self.mp_draw.DrawingSpec(color=(200,200,200), thickness=1, circle_radius=1) if draw_landmarks else None
+                        connection_drawing_spec=self.mp_draw.DrawingSpec(color=(200,200,200), thickness=1, circle_radius=1) if draw else None
                     )
         return img, self.results
 

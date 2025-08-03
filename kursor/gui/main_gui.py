@@ -1,8 +1,8 @@
-
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import cv2
+from ttkthemes import ThemedTk
 
 class MainGUI(tk.Frame):
     def __init__(self, master, app_controller):
@@ -18,31 +18,44 @@ class MainGUI(tk.Frame):
         main_frame = ttk.Frame(self.master, padding="10")
         main_frame.pack(expand=True, fill=tk.BOTH)
 
-        # Left panel for controls
-        control_panel = ttk.LabelFrame(main_frame, text="Controls", padding="10")
-        control_panel.pack(side=tk.LEFT, fill=tk.Y, padx=(0, 10))
+        # Notebook for tabs
+        self.notebook = ttk.Notebook(main_frame)
+        self.notebook.pack(expand=True, fill=tk.BOTH)
 
-        self.mode_label = ttk.Label(control_panel, text="Mode: Hand")
-        self.mode_label.pack(pady=5)
+        # Control Tab
+        control_tab = ttk.Frame(self.notebook, padding="10")
+        self.notebook.add(control_tab, text="Controls")
+        self.create_control_tab(control_tab)
 
-        self.status_label = ttk.Label(control_panel, text="Status: Inactive")
-        self.status_label.pack(pady=5)
+        # Camera Tab
+        camera_tab = ttk.Frame(self.notebook, padding="10")
+        self.notebook.add(camera_tab, text="Camera Feed")
+        self.create_camera_tab(camera_tab)
 
-        self.start_stop_button = ttk.Button(control_panel, text="Start", command=self.app_controller.toggle_mouse_control)
+        # Status Bar
+        self.status_bar = ttk.Frame(self.master, padding="5")
+        self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+        self.mode_label = ttk.Label(self.status_bar, text="Mode: Hand")
+        self.mode_label.pack(side=tk.LEFT, padx=5)
+        self.status_label = ttk.Label(self.status_bar, text="Status: Inactive")
+        self.status_label.pack(side=tk.LEFT, padx=5)
+
+    def create_control_tab(self, parent):
+        self.start_stop_button = ttk.Button(parent, text="Start", command=self.app_controller.toggle_mouse_control)
         self.start_stop_button.pack(pady=10, fill=tk.X)
 
-        self.switch_mode_button = ttk.Button(control_panel, text="Switch to Face Mode", command=self.app_controller.switch_control_mode)
+        self.switch_mode_button = ttk.Button(parent, text="Switch to Face Mode", command=self.app_controller.switch_control_mode)
         self.switch_mode_button.pack(pady=10, fill=tk.X)
 
-        self.settings_button = ttk.Button(control_panel, text="Settings", command=self.app_controller.open_settings)
+        self.settings_button = ttk.Button(parent, text="Settings", command=self.app_controller.open_settings)
         self.settings_button.pack(pady=10, fill=tk.X)
 
-        self.quit_button = ttk.Button(control_panel, text="Quit", command=self.master.quit)
+        self.quit_button = ttk.Button(parent, text="Quit", command=self.master.quit)
         self.quit_button.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
 
-        # Right panel for camera feed
-        self.camera_label = ttk.Label(main_frame)
-        self.camera_label.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+    def create_camera_tab(self, parent):
+        self.camera_label = ttk.Label(parent)
+        self.camera_label.pack(expand=True, fill=tk.BOTH)
 
     def update_video_feed(self, frame):
         img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -67,6 +80,6 @@ if __name__ == '__main__':
         def open_settings(self):
             print("Open settings")
 
-    root = tk.Tk()
+    root = ThemedTk(theme="arc")
     app = MainGUI(root, MockAppController())
     root.mainloop()

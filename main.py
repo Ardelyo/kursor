@@ -10,6 +10,7 @@ from kursor.input.mouse_handler import MouseHandler
 from kursor.input.virtual_keyboard import VirtualKeyboard
 from kursor.gui.main_gui import MainGUI
 from kursor.gui.gui_settings import SettingsGUI
+from ttkthemes import ThemedTk
 
 class CVThread(threading.Thread):
     def __init__(self, app, frame_queue, result_queue):
@@ -26,20 +27,23 @@ class CVThread(threading.Thread):
             if frame is None: # Sentinel for stopping
                 break
 
-            processed_frame, gesture = self.process_frame(frame)
-            self.result_queue.put((processed_frame, gesture))
+            processed_frame, gesture, pointer = self.process_frame(frame)
+            self.result_queue.put((processed_frame, gesture, pointer))
 
     def process_frame(self, frame):
         gesture = None
+        pointer = (-1, -1)
         if self.app.control_mode == "hand":
             frame, _ = self.hand_tracker.find_hands(frame)
             if self.app.mouse_control_active and self.hand_tracker.landmark_list:
                 gesture = self.hand_tracker.get_gestures()
+                pointer, _ = self.hand_tracker.get_landmark_position()
         else: # Face mode
             frame, _ = self.face_tracker.find_faces(frame)
             if self.app.mouse_control_active and self.face_tracker.raw_face_landmarks:
                 gesture = self.face_tracker.get_face_gestures(frame)
-        return frame, gesture
+                pointer = self.face_tracker.get_landmark_position(frame)
+        return frame, gesture, pointer
 
 class Application:
     def __init__(self, root):
@@ -83,15 +87,19 @@ class Application:
 
     def process_results(self):
         try:
-            frame, gesture = self.result_queue.get_nowait()
+            frame, gesture, pointer = self.result_queue.get_nowait()
             self.main_gui.update_video_feed(frame)
             if gesture:
-                self.handle_gesture(gesture)
+                self.handle_gesture(gesture, pointer)
         except queue.Empty:
             pass
         self.root.after(10, self.process_results)
 
-    def handle_gesture(self, gesture):
+    def handle_gesture(self, gesture, pointer):
+        cam_width = self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        cam_height = self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        self.mouse_handler.move_mouse(pointer[0], pointer[1], cam_width, cam_height)
+
         if self.control_mode == "hand":
             if gesture.get("left_click"):
                 self.mouse_handler.left_click()
@@ -106,7 +114,7 @@ class Application:
         self.root.destroy()
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = ThemedTk(theme="arc")
     app = Application(root)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
